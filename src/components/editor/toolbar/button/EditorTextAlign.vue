@@ -1,13 +1,16 @@
 <template>
   <TooltipIconButton icon="editor-icon-align-left" tooltip-class="editor-tooltip__popper editor-tooltip-leftAlign"
                      :tooltip-content="getTooltipContent()" :label="getLabel()"
-                     size="small" type="default" class="icon-button" :class="getActiveClass()" @click="handleClick()"/>
+                     size="normal" type="default" class="icon-button" :class="getActiveClass()" @click="handleClick"/>
 </template>
 
 <script setup lang="ts">
 import { defineProps } from 'vue'
 import { Editor } from '@tiptap/vue-3'
-import TooltipIconButton from '@/components/button/TooltipIconButton.vue'
+import TooltipIconButton from '@/components/common-button/TooltipIconButton.vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const props = defineProps({
   editor: { type: Editor, default: null },
@@ -15,17 +18,17 @@ const props = defineProps({
 })
 
 function getActiveClass () {
-  return { 'is-active': props.editor?.isActive(props.direction) ?? false }
+  return { 'is-active': props.editor?.isActive({ textAlign: props.direction }) }
 }
 
 function getTooltipContent () {
   if (props.direction as string === 'left') {
-    return '좌측정렬'
+    return t('left-align')
   }
   if (props.direction as string === 'right') {
-    return '우측정렬'
+    return t('right-align')
   }
-  return '중앙정렬'
+  return t('center-align')
 }
 
 function getLabel () {
@@ -38,7 +41,7 @@ function getLabel () {
   return '-'
 }
 
-function handleClick () {
+const handleClick = () => {
   props.editor?.chain().focus().setTextAlign(props.direction as string).run()
 }
 </script>

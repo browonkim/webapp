@@ -1,14 +1,15 @@
 <template>
   <el-tooltip :popper-class="tooltipClass" effect="light" placement="top" :content="tooltipContent">
     <el-button :circle="circle" v-loading="loading" :type="type"
-               :disabled="disabled" :size="size" @click="onClick($event)"
-               v-html="getHtml()">
+               :disabled="disabled" :size="size" @click="onClick($event)">
+      <slot></slot>
     </el-button>
   </el-tooltip>
 </template>
 
 <script setup lang="ts">
 import { defineProps, defineEmits } from 'vue'
+import { ElMessage } from 'element-plus'
 
 const props = defineProps({
   type: {
@@ -72,6 +73,7 @@ function onClick ($event: Event) {
   if (isLoading()) {
     return
   }
+  ElMessage(props.icon)
   emits('click', $event)
   emits('switch', {
     $event,
@@ -86,9 +88,9 @@ function iconClass () {
 
 function getHtml () {
   if (props.labelPosition === 'right') {
-    return `<span><i class="${iconClass()}"></i>${props.label}</span>`
+    return `<span class="${iconClass()} ><i"> </i>${props.label}</span>`
   } else {
-    return `<span>${props.label}<i class="${iconClass()}"/></span>`
+    return `<span class="${iconClass()}">${props.label}<i></i></span>`
   }
 }
 </script>

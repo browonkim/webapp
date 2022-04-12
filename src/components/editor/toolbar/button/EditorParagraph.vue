@@ -1,13 +1,13 @@
 <template>
   <TooltipIconButton icon="editor-icon-paragraph" tooltip-class="editor-tooltip__popper editor-tooltip-paragraph"
-                     tooltip-content="paragraph" label="P"
+                     :tooltip-content="$t('paragraph')" label="P"
                      size="normal" type="default" class="icon-button" :class="getActiveClass()" @click="handleClick"/>
 </template>
 
 <script setup lang="ts">
 import { defineProps } from 'vue'
 import { Editor } from '@tiptap/vue-3'
-import TooltipIconButton from '@/components/button/TooltipIconButton.vue'
+import TooltipIconButton from '@/components/common-button/TooltipIconButton.vue'
 
 const props = defineProps({
   editor: Editor

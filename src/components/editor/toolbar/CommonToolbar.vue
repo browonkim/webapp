@@ -1,31 +1,3 @@
-<script setup lang='ts'>
-
-import EditorHeading from '@/components/editor/toolbar/common-toolbar-buttons/EditorHeading.vue'
-import EditorParagraph from '@/components/editor/toolbar/common-toolbar-buttons/EditorParagraph.vue'
-import EditorBold from '@/components/editor/toolbar/common-toolbar-buttons/EditorBold.vue'
-import EditorItalic from '@/components/editor/toolbar/common-toolbar-buttons/EditorItalic.vue'
-import EditorStrike from '@/components/editor/toolbar/common-toolbar-buttons/EditorStrike.vue'
-import EditorHighlight from '@/components/editor/toolbar/common-toolbar-buttons/EditorHighlight.vue'
-import EditorFontColor from '@/components/editor/toolbar/common-toolbar-buttons/EditorFontColor.vue'
-import EditorTextAlign from '@/components/editor/toolbar/common-toolbar-buttons/EditorTextAlign.vue'
-import EditorBulletList from '@/components/editor/toolbar/common-toolbar-buttons/EditorBulletList.vue'
-import EditorOrderedList from '@/components/editor/toolbar/common-toolbar-buttons/EditorOrderedList.vue'
-import EditorTaskList from '@/components/editor/toolbar/common-toolbar-buttons/EditorTaskList.vue'
-import EditorHyperLink from '@/components/editor/toolbar/common-toolbar-buttons/EditorHyperLink.vue'
-import EditorHorizontalRule from '@/components/editor/toolbar/common-toolbar-buttons/EditorHorizontalRule.vue'
-import EditorCodeLine from '@/components/editor/toolbar/common-toolbar-buttons/EditorCodeLine.vue'
-import EditorCodeBlock from '@/components/editor/toolbar/common-toolbar-buttons/EditorCodeBlock.vue'
-import { defineProps } from 'vue'
-import { Editor } from '@tiptap/vue-3'
-
-const props = defineProps({
-  editor: {
-    type: Editor,
-    required: true
-  }
-})
-</script>
-
 <template>
   <div>
     <EditorHeading :editor="editor" id="heading" class="heading"></EditorHeading>
@@ -50,6 +22,33 @@ const props = defineProps({
     <EditorCodeBlock :editor="editor" id="codeBlock"></EditorCodeBlock>
   </div>
 </template>
+
+<script setup lang='ts'>
+import EditorHeading from '@/components/editor/toolbar/button/EditorHeading.vue'
+import EditorParagraph from '@/components/editor/toolbar/button/EditorParagraph.vue'
+import EditorBold from '@/components/editor/toolbar/button/EditorBold.vue'
+import EditorItalic from '@/components/editor/toolbar/button/EditorItalic.vue'
+import EditorStrike from '@/components/editor/toolbar/button/EditorStrike.vue'
+import EditorHighlight from '@/components/editor/toolbar/button/EditorHighlight.vue'
+import EditorFontColor from '@/components/editor/toolbar/button/EditorFontColor.vue'
+import EditorTextAlign from '@/components/editor/toolbar/button/EditorTextAlign.vue'
+import EditorBulletList from '@/components/editor/toolbar/button/EditorBulletList.vue'
+import EditorOrderedList from '@/components/editor/toolbar/button/EditorOrderedList.vue'
+import EditorTaskList from '@/components/editor/toolbar/button/EditorTaskList.vue'
+import EditorHyperLink from '@/components/editor/toolbar/button/EditorHyperLink.vue'
+import EditorHorizontalRule from '@/components/editor/toolbar/button/EditorHorizontalRule.vue'
+import EditorCodeLine from '@/components/editor/toolbar/button/EditorCodeLine.vue'
+import EditorCodeBlock from '@/components/editor/toolbar/button/EditorCodeBlock.vue'
+import { defineProps } from 'vue'
+import { Editor } from '@tiptap/vue-3'
+
+const props = defineProps({
+  editor: {
+    type: Editor,
+    required: true
+  }
+})
+</script>
 
 <style scoped>
 
