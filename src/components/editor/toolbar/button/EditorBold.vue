@@ -1,6 +1,6 @@
 <template>
   <TooltipIconButton icon="editor-icon-bold" tooltip-class="editor-tooltip__popper editor-tooltip-bold"
-                     :tooltip-content="$t('bold')" size="normal" type="default" class="icon-button"
+                     :tooltip-content="$t('bold')" type="default" class="icon-button"
                      :class="getActiveClass()" @click="handleClick">
     <IconBase view-box="0 0 30 30" height="15.5px" width="15.5px"><EditorBoldIcon/></IconBase>
   </TooltipIconButton>

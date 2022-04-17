@@ -1,6 +1,6 @@
 <template>
   <el-dropdown @command="handleCommand" @click="handleClick">
-    <el-button type="default" size="normal">
+    <el-button type="default">
       {{ getSelectedDropdownText() }}<i class="editor-icon-arrow-down el-icon--right"></i>
     </el-button>
     <template #dropdown>

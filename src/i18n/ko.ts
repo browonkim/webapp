@@ -5,5 +5,6 @@ export const ko = {
   'right-align': '오른쪽 정렬',
   'center-align': '중앙 정렬',
   'highlight': '형광펜',
-  'paragraph': '문단'
+  'paragraph': '문단',
+  'font-color': '문자 색'
 }

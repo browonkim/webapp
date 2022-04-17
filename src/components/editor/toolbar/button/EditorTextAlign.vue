@@ -1,7 +1,7 @@
 <template>
   <TooltipIconButton icon="editor-icon-align-left" tooltip-class="editor-tooltip__popper editor-tooltip-leftAlign"
                      :tooltip-content="getTooltipContent()" :label="getLabel()"
-                     size="normal" type="default" class="icon-button" :class="getActiveClass()" @click="handleClick"/>
+                     type="default" class="icon-button" :class="getActiveClass()" @click="handleClick"/>
 </template>
 
 <script setup lang="ts">

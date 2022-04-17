@@ -1,6 +1,6 @@
 <template>
   <TooltipIconButton icon="editor-icon-italic" tooltip-class="editor-tooltip__popper editor-tooltip-italic"
-                     tooltip-content="기울임꼴" size="normal" type="default" class="icon-button"
+                     tooltip-content="기울임꼴" type="default" class="icon-button"
                      :class="getActiveClass()" @click="handleClick">
     <IconBase width="15.5px" height="15.5px" view-box="0 0 30 30"><EditorItalicIcon/></IconBase>
   </TooltipIconButton>

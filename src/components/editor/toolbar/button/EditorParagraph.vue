@@ -1,7 +1,7 @@
 <template>
   <TooltipIconButton icon="editor-icon-paragraph" tooltip-class="editor-tooltip__popper editor-tooltip-paragraph"
                      :tooltip-content="$t('paragraph')" label="P"
-                     size="normal" type="default" class="icon-button" :class="getActiveClass()" @click="handleClick">
+                     type="default" class="icon-button" :class="getActiveClass()" @click="handleClick">
   <IconBase view-box="0 -2 35 35" width="15.5px" height="15.5px"><EditorParagraphIcon/></IconBase>
   </TooltipIconButton>
 </template>

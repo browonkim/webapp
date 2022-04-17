@@ -15,7 +15,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/',
-    name: 'guest',
+    name: '',
     component: () => import('@/views/AppMain.vue'),
     children: [
       {
@@ -29,6 +29,16 @@ const routes: Array<RouteRecordRaw> = [
             component: () => import('@/views/guest-book/GuestBook.vue')
           }
         ]
+      },
+      {
+        path: '/todo',
+        name: 'todo',
+        component: () => import('@/components/todo-list/Todo.vue')
+      },
+      {
+        path: '/drag',
+        name: 'drag',
+        component: () => import('@/views/todo/TodoList.vue')
       }
     ]
   }

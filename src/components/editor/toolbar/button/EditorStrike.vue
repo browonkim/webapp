@@ -1,6 +1,6 @@
 <template>
   <TooltipIconButton icon="editor-icon-strike" tooltip-class="editor-tooltip__popper editor-tooltip-strike"
-                     :tooltip-content="$t('strike')" size="normal" type="default" class="icon-button"
+                     :tooltip-content="$t('strike')" type="default" class="icon-button"
                      label="S" :class="getActiveClass" @click="handleClick">
     <IconBase width="15.5px" height="15.5px" view-box="0 0 30 30"><EditorStrikeIcon/></IconBase>
   </TooltipIconButton>

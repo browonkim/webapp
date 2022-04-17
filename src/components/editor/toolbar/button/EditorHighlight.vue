@@ -1,7 +1,7 @@
 <template>
   <TooltipIconButton icon="editor-icon-highlight" tooltip-class="editor-tooltip__popper editor-tooltip-highlight"
                      :tooltip-content="$t('highlight')"
-                     size="normal" type="default" class="icon-button" :class="getActiveClass()" @click="handleClick">
+                     type="default" class="icon-button" :class="getActiveClass()" @click="handleClick">
     <IconBase icon-name="bold" width="20px" height="20px" view-box="-2 -6 40 40"><EditorHighlightIcon/></IconBase>
   </TooltipIconButton>
 </template>
