@@ -9,7 +9,6 @@
 
 <script setup lang="ts">
 import { defineProps, defineEmits } from 'vue'
-import { ElMessage } from 'element-plus'
 
 const props = defineProps({
   type: {
@@ -73,7 +72,6 @@ function onClick ($event: Event) {
   if (isLoading()) {
     return
   }
-  ElMessage(props.icon)
   emits('click', $event)
   emits('switch', {
     $event,
