@@ -1,22 +1,22 @@
 <template>
   <el-row class="todo-list-container">
-    <el-col class="todo-list todo" :span="7" @dragstart="onDrop($event, 'todo')" @dragover.prevent @dragenter.prevent>
+    <el-col class="todo-list todo" :span="7" @drop="onDrop($event, 'todo')" @dragover.prevent @dragenter.prevent>
       <p class="todo-list-header"> TODO </p>
       <el-card v-for="item in todo" :key="item.id" class="todo-element" draggable="true"
-               @dragstart="startDrag($event, item)" v-html="item.content">
+               @dragstart="startDrag($event, item.id)" v-html="item.content">
       </el-card>
     </el-col>
-    <el-col class="todo-list progressing" :span="7" @dragstart="onDrop($event, 'progressing')" @dragover.prevent
+    <el-col class="todo-list progressing" :span="7" @drop="onDrop($event, 'progressing')" @dragover.prevent
             @dragenter.prevent>
       <p class="todo-list-header"> PROGRESSING </p>
       <el-card v-for="item in progressing" :key="item.id" class="todo-element" draggable="true"
-               @dragstart="startDrag($event, item)" v-html="item.content">
+               @dragstart="startDrag($event, item.id)" v-html="item.content">
       </el-card>
     </el-col>
-    <el-col class="todo-list done" :span="7" @dragstart="onDrop($event, 'done')" @dragover.prevent @dragenter.prevent>
+    <el-col class="todo-list done" :span="7" @drop="onDrop($event, 'done')" @dragover.prevent @dragenter.prevent>
       <p class="todo-list-header"> DONE </p>
       <el-card v-for="item in done" :key="item.id" class="todo-element" draggable="true"
-               @dragstart="startDrag($event, item)" v-html="item.content">
+               @dragstart="startDrag($event, item.id)" v-html="item.content">
       </el-card>
     </el-col>
   </el-row>
@@ -24,6 +24,7 @@
 
 <script setup lang="ts">
 import { computed, reactive } from 'vue'
+import { ElMessage } from 'element-plus'
 
 const data = reactive({
   elements: [
@@ -53,16 +54,35 @@ const done = computed(() => data.elements.filter(element => element.state === 'd
 const onDrop = ($event: DragEvent, state: string) => {
   const itemId = $event.dataTransfer?.getData('itemId')
   const item = data.elements.find(element => element.id.toString() === itemId)
+  if (state === 'todo') {
+    ElMessage({
+      message: '할 일로 변경',
+      type: 'info',
+      showClose: true
+    })
+  } else if (state === 'progressing') {
+    ElMessage({
+      message: '진행 중으로 변경',
+      type: 'warning',
+      showClose: true
+    })
+  } else {
+    ElMessage({
+      message: '완료로 변경',
+      type: 'success',
+      showClose: true
+    })
+  }
   if (item) item.state = state
 }
 
-const startDrag = ($event: DragEvent, item: element) => {
+const startDrag = ($event: DragEvent, itemId: number) => {
   if ($event.dataTransfer === null) {
     return
   }
   $event.dataTransfer.dropEffect = 'move'
   $event.dataTransfer.effectAllowed = 'move'
-  $event.dataTransfer.setData('itemId', item.id.toString())
+  $event.dataTransfer.setData('itemId', itemId.toString())
 }
 </script>
 
