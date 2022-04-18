@@ -8,7 +8,7 @@
     <div>
       <el-date-picker :placeholder="$t('date')" v-model="inputDate"
                       type="datetime"/>
-      <el-button class="save" type="primary" @click="onSave">save</el-button>
+      <el-button class="save" type="primary" @click="onSave" :disabled="!saveEnable">save</el-button>
     </div>
   </el-dialog>
   <el-row class="todo-list-container">
@@ -77,7 +77,7 @@ interface element {
   title: string,
   date: string
 }
-
+const saveEnable = computed(() => (inputDetail.value !== '' || inputTitle.value !== ''))
 const todo = computed(() => data.elements.filter(element => element.state === 'todo'))
 const progressing = computed(() => data.elements.filter(element => element.state === 'progressing'))
 const done = computed(() => data.elements.filter(element => element.state === 'done'))
@@ -87,6 +87,9 @@ let a = 2
 const onDrop = ($event: DragEvent, state: string) => {
   const itemId = $event.dataTransfer?.getData('itemId')
   const item = data.elements.find(element => element.id.toString() === itemId)
+  if (state === item?.state) {
+    return
+  }
   if (state === 'todo') {
     ElMessage({
       message: '할 일로 변경',
