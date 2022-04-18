@@ -94,19 +94,22 @@ const onDrop = ($event: DragEvent, state: string) => {
     ElMessage({
       message: '할 일로 변경',
       type: 'info',
-      showClose: true
+      showClose: true,
+      duration: 1000
     })
   } else if (state === 'progressing') {
     ElMessage({
       message: '진행 중으로 변경',
       type: 'warning',
-      showClose: true
+      showClose: true,
+      duration: 1000
     })
   } else {
     ElMessage({
       message: '완료로 변경',
       type: 'success',
-      showClose: true
+      showClose: true,
+      duration: 1000
     })
   }
   if (item) item.state = state
@@ -121,7 +124,7 @@ const startDrag = ($event: DragEvent, itemId: number) => {
   $event.dataTransfer.setData('itemId', itemId.toString())
 }
 
-const onSave = ($event: MouseEvent) => {
+const onSave = () => {
   const element: element = {
     title: inputTitle.value,
     id: a++,
