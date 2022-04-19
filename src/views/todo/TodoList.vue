@@ -47,32 +47,40 @@
 import { computed, onMounted, reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { api } from '@/api/axios-configuration'
+import { isSuccess } from '@/utils/httpUtils'
+
+interface TodoItem {
+  id: number | null,
+  detail: string | null,
+  state: string | null,
+  title: string | null,
+  date: string | null
+}
+
+interface ListOfTodoElement {
+  todoItems: TodoItem[]
+}
 
 const dialogVisible = ref(false)
 const inputTitle = ref('')
 const inputDetail = ref('')
 const inputDate = ref('')
-const data = reactive({
+const data = reactive<ListOfTodoElement>({
   todoItems: []
 })
 
-interface element {
-  id: number,
-  detail: string,
-  state: string,
-  title: string,
-  date: string
-}
-
 const saveEnable = computed(() => (inputDetail.value !== '' || inputTitle.value !== ''))
-const todo = computed(() => data.todoItems?.filter(element => element.state === 'todo'))
-const progressing = computed(() => data.todoItems?.filter(element => element.state === 'progressing'))
-const done = computed(() => data.todoItems?.filter(element => element.state === 'done'))
+const todo = computed(() => data.todoItems?.filter((element: TodoItem) => element.state === 'todo'))
+const progressing = computed(() => data.todoItems?.filter((element: TodoItem) => element.state === 'progressing'))
+const done = computed(() => data.todoItems?.filter((element: TodoItem) => element.state === 'done'))
 
 const onDrop = ($event: DragEvent, state: string) => {
   const itemId = $event.dataTransfer?.getData('itemId')
-  const item = data.todoItems.find(element => element.id.toString() === itemId)
-  if (state === item?.state) {
+  const item: TodoItem | undefined = data.todoItems.find((element: TodoItem) => element?.id?.toString() === itemId)
+  if (item === undefined) {
+    return
+  }
+  if (state === item.state) {
     return
   }
   if (state === 'todo') {
@@ -80,21 +88,21 @@ const onDrop = ($event: DragEvent, state: string) => {
       message: '할 일로 변경',
       type: 'info',
       showClose: true,
-      duration: 1000
+      duration: 700
     })
   } else if (state === 'progressing') {
     ElMessage({
       message: '진행 중으로 변경',
       type: 'warning',
       showClose: true,
-      duration: 1000
+      duration: 700
     })
   } else {
     ElMessage({
       message: '완료로 변경',
       type: 'success',
       showClose: true,
-      duration: 1000
+      duration: 700
     })
   }
   if (item) item.state = state
@@ -109,15 +117,16 @@ const startDrag = ($event: DragEvent, itemId: number) => {
   $event.dataTransfer.setData('itemId', itemId.toString())
 }
 
-const onSave = () => {
-  const element: element = {
+const onSave = async () => {
+  const todo: TodoItem = {
     title: inputTitle.value,
     id: null,
     detail: inputDetail.value,
     date: inputDate.value,
     state: 'todo'
   }
-  data.todoItems.push(element)
+  const result = await insertTodo(todo)
+  data.todoItems.push(result)
   inputTitle.value = ''
   inputDetail.value = ''
   inputDate.value = ''
@@ -125,9 +134,8 @@ const onSave = () => {
 }
 
 async function retrieveTodoData () {
-  let todoData
   try {
-    todoData = await api.get('/todo')
+    const todoData = await api.get('/todo')
     data.todoItems = todoData.data
   } catch (e) {
     ElMessage({
@@ -135,7 +143,21 @@ async function retrieveTodoData () {
       duration: 1000,
       showClose: true
     })
-    throw Error('cannot retrieve')
+  }
+}
+
+async function insertTodo (todo: TodoItem): Promise<TodoItem> {
+  try {
+    const result = await api.post('/todo', todo)
+    isSuccess(result.status)
+    return { ...result.data } as TodoItem
+  } catch (e) {
+    ElMessage({
+      message: 'connection to API server has failed',
+      duration: 1000,
+      showClose: true
+    })
+    throw new Error('server error')
   }
 }
 
