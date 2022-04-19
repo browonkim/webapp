@@ -38,36 +38,22 @@
       </el-card>
     </el-col>
     <el-col :span="1">
-      <el-button class="todo-add-button" @click="dialogVisible = true" type="primary" plain> New </el-button>
+      <el-button class="todo-add-button" @click="dialogVisible = true" type="primary" plain> New</el-button>
     </el-col>
   </el-row>
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
+import { api } from '@/api/axios-configuration'
 
 const dialogVisible = ref(false)
 const inputTitle = ref('')
 const inputDetail = ref('')
 const inputDate = ref('')
 const data = reactive({
-  elements: [
-    {
-      id: 0,
-      detail: '판교 회사',
-      title: '이력서 넣기',
-      state: 'todo',
-      date: '2022-04-18 09:00:00'
-    },
-    {
-      id: 1,
-      detail: '해피콜 전화 받기',
-      title: '가구 설치',
-      state: 'done',
-      date: '2022-04-18 09:00:00'
-    }
-  ]
+  todoItems: []
 })
 
 interface element {
@@ -77,16 +63,15 @@ interface element {
   title: string,
   date: string
 }
-const saveEnable = computed(() => (inputDetail.value !== '' || inputTitle.value !== ''))
-const todo = computed(() => data.elements.filter(element => element.state === 'todo'))
-const progressing = computed(() => data.elements.filter(element => element.state === 'progressing'))
-const done = computed(() => data.elements.filter(element => element.state === 'done'))
 
-let a = 2
+const saveEnable = computed(() => (inputDetail.value !== '' || inputTitle.value !== ''))
+const todo = computed(() => data.todoItems?.filter(element => element.state === 'todo'))
+const progressing = computed(() => data.todoItems?.filter(element => element.state === 'progressing'))
+const done = computed(() => data.todoItems?.filter(element => element.state === 'done'))
 
 const onDrop = ($event: DragEvent, state: string) => {
   const itemId = $event.dataTransfer?.getData('itemId')
-  const item = data.elements.find(element => element.id.toString() === itemId)
+  const item = data.todoItems.find(element => element.id.toString() === itemId)
   if (state === item?.state) {
     return
   }
@@ -127,17 +112,41 @@ const startDrag = ($event: DragEvent, itemId: number) => {
 const onSave = () => {
   const element: element = {
     title: inputTitle.value,
-    id: a++,
+    id: null,
     detail: inputDetail.value,
     date: inputDate.value,
     state: 'todo'
   }
-  data.elements.push(element)
+  data.todoItems.push(element)
   inputTitle.value = ''
   inputDetail.value = ''
   inputDate.value = ''
   dialogVisible.value = false
 }
+
+async function retrieveTodoData () {
+  let todoData
+  try {
+    todoData = await api.get('/todo')
+    data.todoItems = todoData.data
+  } catch (e) {
+    ElMessage({
+      message: 'connection to API server has failed',
+      duration: 1000,
+      showClose: true
+    })
+    throw Error('cannot retrieve')
+  }
+}
+
+onMounted(() => {
+  try {
+    retrieveTodoData()
+  } catch (e) {
+    data.todoItems = []
+  }
+})
+
 </script>
 
 <style scoped lang="sass">
